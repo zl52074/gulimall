@@ -1,4 +1,4 @@
-target/
+#target/
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
@@ -16,6 +16,13 @@ buildNumber.properties
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
 
+#IDEA
 *.iml
 .idea
-**/target/
+gulimall-*/target/
+
+#Nacos
+nacos-server-2.2.0/
+
+
+

@@ -3,12 +3,9 @@ package com.zl52074.gulimall.member.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.zl52074.gulimall.member.feign.CouponService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.zl52074.gulimall.member.entity.MemberEntity;
 import com.zl52074.gulimall.member.service.MemberService;
@@ -21,7 +18,7 @@ import com.zl52074.gulimall.common.utils.R;
  * 会员
  *
  * @author zl52074
- * @email 
+ * @email
  * @date 2023-10-05 09:04:48
  */
 @RestController
@@ -29,6 +26,14 @@ import com.zl52074.gulimall.common.utils.R;
 public class MemberController {
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    CouponService couponService;
+
+    @GetMapping("/coupon/list")
+    public R memberCouponList(){
+        return R.ok().put("couponList", couponService.memberCouponList());
+    }
 
     /**
      * 列表

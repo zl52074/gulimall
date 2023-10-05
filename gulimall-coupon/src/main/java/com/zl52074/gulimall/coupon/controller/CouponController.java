@@ -4,11 +4,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.zl52074.gulimall.coupon.entity.CouponEntity;
 import com.zl52074.gulimall.coupon.service.CouponService;
@@ -21,7 +17,7 @@ import com.zl52074.gulimall.common.utils.R;
  * 优惠券信息
  *
  * @author zl52074
- * @email 
+ * @email
  * @date 2023-10-05 18:16:20
  */
 @RestController
@@ -29,6 +25,13 @@ import com.zl52074.gulimall.common.utils.R;
 public class CouponController {
     @Autowired
     private CouponService couponService;
+
+    @GetMapping("/member/list")
+    public R memberCouponList(){
+        CouponEntity coupon = new CouponEntity();
+        coupon.setCouponName("test");
+        return R.ok().put("couponList", Arrays.asList(coupon));
+    }
 
     /**
      * 列表
