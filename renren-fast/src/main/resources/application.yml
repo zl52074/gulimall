@@ -11,6 +11,13 @@ server:
     context-path: /renren-fast
 
 spring:
+  application:
+    name: renren-fast
+  #nacos注册中心
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
   # 环境 dev|test|prod
   profiles:
     active: dev
