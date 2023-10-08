@@ -8,6 +8,7 @@ nacos-server-2.2.0/
 
 #vue
 **/node_modules
+**/dist
 
 
 

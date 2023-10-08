@@ -1,6 +1,7 @@
 package com.zl52074.gulimall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import com.zl52074.gulimall.common.utils.R;
  * 商品三级分类
  *
  * @author zl52074
- * @email 
+ * @email
  * @date 2023-10-05 07:25:36
  */
 @RestController
@@ -33,11 +34,11 @@ public class CategoryController {
     /**
      * 列表
      */
-    @RequestMapping("/list")
-        public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = categoryService.queryPage(params);
+    @RequestMapping("/list/tree")
+        public R list(){
+        List<CategoryEntity> categoryTree= categoryService.listWithTree();
 
-        return R.ok().put("page", page);
+        return R.ok().put("data", categoryTree);
     }
 
 
@@ -65,8 +66,8 @@ public class CategoryController {
      * 修改
      */
     @RequestMapping("/update")
-        public R update(@RequestBody CategoryEntity category){
-		categoryService.updateById(category);
+    public R update(@RequestBody CategoryEntity[] categories){
+        categoryService.updateBatchById(Arrays.asList(categories));
 
         return R.ok();
     }
@@ -76,8 +77,8 @@ public class CategoryController {
      */
     @RequestMapping("/delete")
         public R delete(@RequestBody Long[] catIds){
-		categoryService.removeByIds(Arrays.asList(catIds));
-
+		// categoryService.removeByIds(Arrays.asList(catIds));
+        categoryService.removeCategoryByIds(Arrays.asList(catIds));
         return R.ok();
     }
 
