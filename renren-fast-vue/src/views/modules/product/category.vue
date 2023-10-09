@@ -83,7 +83,13 @@
         updateNodes:[],
         maxLevel:0,
         dialogType:"",
-        category:{},
+        category:{
+          catId:0,
+          name:'',
+          showStatus:0,
+          icon:'',
+          productUnit:''
+        },
         dialogVisible:false,
         treeData: [],
         expandedKeys:[],
@@ -251,12 +257,10 @@
       updateCategory() {
         this.dialogVisible=false;
         console.log("updateCategory",this.category)
-        let categories = [];
-        categories.push(this.category)
         this.$http({
           url: this.$http.adornUrl('/product/category/update'),
           method: 'post',
-          data: this.$http.adornData(categories, false)
+          data: this.$http.adornData([categories], false)
         }).then(({data}) => {
           if(data.msg="success"){
             this.$message.success("修改成功");

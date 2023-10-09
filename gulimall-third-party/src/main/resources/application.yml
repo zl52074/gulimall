@@ -1,0 +1,18 @@
+server:
+  port: 30000
+spring:
+  application:
+    name: gulimall-third-party
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    alicloud:
+      access-key: ENC(agckgjGyvNzfNtI4xNwE7c1hbbLJOBImzoLX71115cbvjkHyLctXE5Lsn5ZPB2qTRrMJw08ysboUpPcfqGN7CdpCjNrxGQXjQUtbWbPwQUuAyNxiZMMmFoxDZsUNHkxvOSzahEfqP7lAIVEMUqMczrySa3heIP0ehRvMz/TB3uo=)
+      secret-key: ENC(jx+eCOEJLOsIUya9sfDxc8Be6q380BFiqUyEncESBc5ljXHYjo9dXQzq9AJ8i5LF/KfA7aakYn0IS0KUxuh2WMAZUY46NRrjTDwgzuIlRgLj7hLbZIsejWSNlPYFSPKCe+nz36/S9VQ42FkD4BgJO29Q3OhTBrvUwYkNmTDSgRQ=)
+      oss:
+        endpoint: oss-cn-beijing.aliyuncs.com
+        bucket: ENC(fDjfAAsNxja5d5BCWoUEikut80blnEjTESlhNZ4jMU4TLNZmSCwv08//pb/SjMJMpEfKj2dxbI3F6uKV39yhIgT1wtrn3nytA/dhnO/zvsuW0GsY/VU20YKB6Z1iC9whd+P1mMMvspYqS6SmIiUS6ffcJQiIrKg4WvUBugoa08Q=)
+    util:
+      enabled: false
+

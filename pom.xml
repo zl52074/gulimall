@@ -16,6 +16,8 @@
         <module>gulimall-product</module>
         <module>gulimall-ware</module>
         <module>gulimall-gateway</module>
+        <module>gulimall-third-party</module>
+
     </modules>
 
     <parent>
