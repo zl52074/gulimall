@@ -42,6 +42,7 @@
     components: {SingleUpload},
     data () {
       return {
+        closeType:"",
         visible: false,
         dataForm: {
           brandId: 0,
@@ -50,7 +51,7 @@
           descript: '',
           showStatus: '',
           firstLetter: '',
-          sort: ''
+          sort: 0
         },
         dataRule: {
           name: [
@@ -63,30 +64,49 @@
             { required: true, message: '介绍不能为空', trigger: 'blur' }
           ],
           showStatus: [
-            { required: true, message: '显示状态[0-不显示；1-显示]不能为空', trigger: 'blur' }
+            { required: true, message: '显示状态不能为空', trigger: 'blur' }
           ],
           firstLetter: [
-            { required: true, message: '检索首字母不能为空', trigger: 'blur' }
+            { required: true, message: '检索首字母不能为空', trigger: 'blur' },
+            {validator:(rule, value, callback)=>{
+              if(!/^[a-zA-Z]$/.test(value)){
+                callback(new Error('检索首字母必须为一个英文字母'))
+              }else {
+                callback();
+              }
+            },trigger: 'blur',}
           ],
           sort: [
-            { required: true, message: '排序不能为空', trigger: 'blur' }
+            { required: true, message: '排序不能为空', trigger: 'blur' },
+            {validator:(rule, value, callback)=>{
+              if(!Number.isInteger(value*1)||value<0){
+                callback(new Error('排序必须为大于0的整数'))
+              }else {
+                callback();
+              }
+            },trigger: 'blur',}
           ]
         }
       }
     },
     methods: {
       handleClose(){
-        if(this.dataForm.logo!=""){
-          let arr = this.dataForm.logo.split('/');
-          arr.splice(0,3);
-          let fileName = arr.join('/');
-          //删除oss文件
-          this.$http({
-            url: this.$http.adornUrl(`/thirdparty/oss/delete`),
-            method: 'post',
-            data: this.$http.adornData([fileName],false)
-          }).then(({data}) => {
-          })
+        if(this.closeType=="submit"){
+          this.closeType="";
+          console.log("submit")
+        }else{
+          if(this.dataForm.logo!=""){
+            let arr = this.dataForm.logo.split('/');
+            arr.splice(0,3);
+            let fileName = arr.join('/');
+            //删除oss文件
+            this.$http({
+              url: this.$http.adornUrl(`/thirdparty/oss/delete`),
+              method: 'post',
+              data: this.$http.adornData([fileName],false)
+            }).then(({data}) => {
+            })
+          }
         }
       },
       init (id) {
@@ -130,6 +150,7 @@
               })
             }).then(({data}) => {
               if (data && data.code === 0) {
+                this.closeType="submit";
                 this.$message({
                   message: '操作成功',
                   type: 'success',
