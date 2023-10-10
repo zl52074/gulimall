@@ -65,10 +65,16 @@ public class CategoryController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
-    public R update(@RequestBody CategoryEntity[] categories){
+    @RequestMapping("/updateSort")
+    public R updateSort(@RequestBody CategoryEntity[] categories){
         categoryService.updateBatchById(Arrays.asList(categories));
 
+        return R.ok();
+    }
+
+    @RequestMapping("/update")
+    public R update(@RequestBody CategoryEntity categorie){
+        categoryService.updateCascade(categorie);
         return R.ok();
     }
 

@@ -1,10 +1,10 @@
 package com.zl52074.gulimall.product.service.impl;
 
+import com.zl52074.gulimall.product.service.CategoryBrandRelationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -16,11 +16,13 @@ import com.zl52074.gulimall.common.utils.Query;
 import com.zl52074.gulimall.product.dao.CategoryDao;
 import com.zl52074.gulimall.product.entity.CategoryEntity;
 import com.zl52074.gulimall.product.service.CategoryService;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
-
+    @Autowired
+    private CategoryBrandRelationService categoryBrandRelationService;
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<CategoryEntity> page = this.page(
@@ -70,5 +72,31 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         //TODO 刪除前检查引用
         baseMapper.deleteBatchIds(ids);
     }
+
+    @Override
+    public Long[] findCatelogPath(Long catId) {
+        List<Long> path = new ArrayList<>();
+        getParentId(catId,path);
+        Collections.reverse(path);
+        return path.toArray(new Long[path.size()]);
+    }
+
+
+    private void getParentId(Long catId,List<Long> path){
+        path.add(catId);
+        CategoryEntity category = this.getById(catId);
+        if(category.getParentCid()!=0){
+            getParentId(category.getParentCid(),path);
+        }
+
+    }
+
+    @Transactional
+    @Override
+    public void updateCascade(CategoryEntity category) {
+        this.updateById(category);
+        categoryBrandRelationService.updateCategory(category.getCatId(),category.getName());
+    }
+
 
 }

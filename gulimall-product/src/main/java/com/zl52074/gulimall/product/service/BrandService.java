@@ -10,11 +10,13 @@ import java.util.Map;
  * 品牌
  *
  * @author zl52074
- * @email 
+ * @email
  * @date 2023-10-05 07:25:36
  */
 public interface BrandService extends IService<BrandEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    void updateCascade(BrandEntity brand);
 }
 

@@ -103,7 +103,7 @@
       batchSave(){
         //提交更新
         this.$http({
-          url: this.$http.adornUrl('/product/category/update'),
+          url: this.$http.adornUrl('/product/category/updateSort'),
           method: 'post',
           data: this.$http.adornData(this.updateNodes, false)
         }).then(({data}) => {
@@ -197,7 +197,7 @@
         //draggingNode当前拖拽节点
         //dropNode目标位置
         //判断被拖动节点与目标节点总深度不大于3
-        this.countNodeLevel(draggingNode.data)
+        this.countNodeLevel(draggingNode)
         //当前节点和最大子节点层数相对层数
         let relativeLevel = this.maxLevel-draggingNode.data.catLevel+1;
         if (type=='inner') {
@@ -260,7 +260,7 @@
         this.$http({
           url: this.$http.adornUrl('/product/category/update'),
           method: 'post',
-          data: this.$http.adornData([categories], false)
+          data: this.$http.adornData(this.category, false)
         }).then(({data}) => {
           if(data.msg="success"){
             this.$message.success("修改成功");
