@@ -1,9 +1,14 @@
 package com.zl52074.gulimall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.zl52074.gulimall.product.entity.AttrEntity;
+import com.zl52074.gulimall.product.service.AttrAttrgroupRelationService;
+import com.zl52074.gulimall.product.service.AttrService;
 import com.zl52074.gulimall.product.service.CategoryService;
+import com.zl52074.gulimall.product.vo.AttrAttrGorupRelationVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,7 +37,39 @@ public class AttrGroupController {
     private AttrGroupService attrGroupService;
 
     @Autowired
+    private AttrService attrService;
+    @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private AttrAttrgroupRelationService attrAttrgroupRelationService;
+
+    ///product/attrgroup/attr/relation
+    @RequestMapping("/attr/relation")
+    public R attrRelation(@RequestBody List<AttrAttrGorupRelationVo> relationVos){
+        attrAttrgroupRelationService.saveBatchRelation(relationVos);
+        return R.ok();
+    }
+
+    ///product/attrgroup/1/noattr/relation?page=1&limit=10&key=
+    @RequestMapping("/{groupId}/noattr/relation")
+    public R noRelationAttrList(@RequestParam Map<String, Object> params,@PathVariable("groupId") Long groupId){
+        PageUtils page = attrService.getNoRelationAttr(params,groupId);
+        return R.ok().put("page", page);
+    }
+
+    ///product/attrgroup/attr/relation/delete
+    @RequestMapping("/attr/relation/delete")
+    public R attrRelationDelete(@RequestBody List<AttrAttrGorupRelationVo> relationVos){
+        attrAttrgroupRelationService.deleteRelation(relationVos);
+        return R.ok();
+    }
+
+    ///product/attrgroup/{groupId}/attr/relation
+    @RequestMapping("/{groupId}/attr/relation")
+    public R attrRelation(@PathVariable("groupId") Long groupId){
+        List<AttrEntity> list = attrService.getRelationAttr(groupId);
+        return R.ok().put("data", list);
+    }
 
     /**
      * 列表

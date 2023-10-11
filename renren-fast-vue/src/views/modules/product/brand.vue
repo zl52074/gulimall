@@ -110,7 +110,7 @@
           <el-button size="mini" type="text" @click="popCatelogSelectVisible = false">取消</el-button>
           <el-button type="primary" size="mini" @click="addCatelogSelect">确定</el-button>
         </div>
-        <el-button slot="reference">新增关联</el-button>
+        <el-button type="primary" slot="reference">新增关联</el-button>
       </el-popover>
       <el-table :data="cateRelationTableData" style="width: 100%">
         <el-table-column prop="id" label="#"></el-table-column>
