@@ -1,15 +1,14 @@
 package com.zl52074.gulimall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.zl52074.gulimall.product.entity.ProductAttrValueEntity;
+import com.zl52074.gulimall.product.service.ProductAttrValueService;
 import com.zl52074.gulimall.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.zl52074.gulimall.product.entity.AttrEntity;
 import com.zl52074.gulimall.product.service.AttrService;
@@ -30,6 +29,33 @@ import com.zl52074.gulimall.common.utils.R;
 public class AttrController {
     @Autowired
     private AttrService attrService;
+
+    @Autowired
+    ProductAttrValueService productAttrValueService;
+
+
+    ///product/attr/update/{spuId}
+    @PostMapping("/update/{spuId}")
+    //@RequiresPermissions("product:attr:update")
+    public R updateSpuAttr(@PathVariable("spuId") Long spuId,
+                           @RequestBody List<ProductAttrValueEntity> entities){
+
+        productAttrValueService.updateSpuAttr(spuId,entities);
+
+        return R.ok();
+    }
+
+    ///product/attr/base/listforspu/{spuId}
+    /**
+     *  获取spu规格
+     */
+    @GetMapping("/base/listforspu/{spuId}")
+    public R baseAttrlistforspu(@PathVariable("spuId") Long spuId){
+
+        List<ProductAttrValueEntity> entities = productAttrValueService.baseAttrListforSpu(spuId);
+
+        return R.ok().put("data",entities);
+    }
 
 
     // /product/attr/base/list/0?t=1696975699441&page=1&limit=10&key=

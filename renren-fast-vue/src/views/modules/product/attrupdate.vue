@@ -106,11 +106,11 @@ export default {
         data.data.forEach(item => {
           let attrArray = [];
           item.attrs.forEach(attr => {
-            let v = "";
+            let v = [];
             if (_this.spuAttrsMap["" + attr.attrId]) {
               v = _this.spuAttrsMap["" + attr.attrId].attrValue.split(";");
               if (v.length == 1) {
-                v = v[0] + "";
+                v.push = v[0] + "";
               }
             }
             attrArray.push({
@@ -187,5 +187,5 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style scoped>
 </style>
