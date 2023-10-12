@@ -70,7 +70,6 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         }
     }
 
-    @Transactional
     @Override
     public PageUtils queryAttrPage(Map<String, Object> params,Long catId,String type) {
         QueryWrapper<AttrEntity> queryWrapper = new QueryWrapper<AttrEntity>()
@@ -117,7 +116,6 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
     }
 
     @Override
-    @Transactional
     public AttrVo getAttrInfo(Long attrId) {
         AttrVo attrVo = new AttrVo();
         AttrEntity attrEntity = this.getById(attrId);
@@ -142,6 +140,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
     }
 
     @Override
+    @Transactional
     public void updateAttrById(AttrVo attrVo) {
         AttrEntity attrEntity = new AttrEntity();
         BeanUtils.copyProperties(attrVo,attrEntity);
@@ -172,7 +171,6 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
     }
 
     @Override
-    @Transactional
     public PageUtils getNoRelationAttr(Map<String, Object> params, Long groupId) {
         String key = (String) params.get("key");
         QueryWrapper<AttrEntity> queryWrapper = new QueryWrapper<AttrEntity>().eq("attr_type",AttrEnum.ATTR_TYPE_BASE.getCode());

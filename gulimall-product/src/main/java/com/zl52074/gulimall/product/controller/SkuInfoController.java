@@ -21,7 +21,7 @@ import com.zl52074.gulimall.common.utils.R;
  * sku信息
  *
  * @author zl52074
- * @email 
+ * @email
  * @date 2023-10-05 07:25:36
  */
 @RestController
@@ -33,9 +33,10 @@ public class SkuInfoController {
     /**
      * 列表
      */
+    ///product/skuinfo/list?t=1697075684280&page=1&limit=10&key=11111&catelogId=225&brandId=19&min=10&max=100
     @RequestMapping("/list")
         public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = skuInfoService.queryPage(params);
+        PageUtils page = skuInfoService.queryPageByCondition(params);
 
         return R.ok().put("page", page);
     }

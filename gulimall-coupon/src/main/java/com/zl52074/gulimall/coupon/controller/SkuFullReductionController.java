@@ -3,12 +3,9 @@ package com.zl52074.gulimall.coupon.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.zl52074.gulimall.common.to.SkuReductionTo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.zl52074.gulimall.coupon.entity.SkuFullReductionEntity;
 import com.zl52074.gulimall.coupon.service.SkuFullReductionService;
@@ -21,7 +18,7 @@ import com.zl52074.gulimall.common.utils.R;
  * 商品满减信息
  *
  * @author zl52074
- * @email 
+ * @email
  * @date 2023-10-05 18:16:20
  */
 @RestController
@@ -29,6 +26,14 @@ import com.zl52074.gulimall.common.utils.R;
 public class SkuFullReductionController {
     @Autowired
     private SkuFullReductionService skuFullReductionService;
+
+    @PostMapping("/saveinfo")
+    public R saveInfo(@RequestBody SkuReductionTo skuReductionTo){
+
+        skuFullReductionService.saveSkuReduction(skuReductionTo);
+
+        return R.ok();
+    }
 
     /**
      * 列表

@@ -1,6 +1,5 @@
 package com.zl52074.gulimall.product.vo;
 
-import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 import java.io.Serializable;
