@@ -1,14 +1,12 @@
 package com.zl52074.gulimall.ware.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.zl52074.gulimall.common.vo.SkuHasStockVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.zl52074.gulimall.ware.entity.WareSkuEntity;
 import com.zl52074.gulimall.ware.service.WareSkuService;
@@ -21,7 +19,7 @@ import com.zl52074.gulimall.common.utils.R;
  * 商品库存
  *
  * @author zl52074
- * @email 
+ * @email
  * @date 2023-10-05 08:58:29
  */
 @RestController
@@ -29,6 +27,18 @@ import com.zl52074.gulimall.common.utils.R;
 public class WareSkuController {
     @Autowired
     private WareSkuService wareSkuService;
+    /**
+     * 查询sku是否有库存
+     * @return
+     */
+    @PostMapping(value = "/hasStock")
+    public R getSkuHasStock(@RequestBody List<Long> skuIds) {
+
+        //skuId stock
+        List<SkuHasStockVo> vos = wareSkuService.getSkuHasStock(skuIds);
+        return R.ok().put("data",vos);
+
+    }
 
     /**
      * 列表

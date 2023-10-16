@@ -8,6 +8,7 @@ import com.zl52074.gulimall.product.entity.ProductAttrValueEntity;
 import com.zl52074.gulimall.product.service.ProductAttrValueService;
 import com.zl52074.gulimall.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import com.zl52074.gulimall.product.entity.AttrEntity;
@@ -25,6 +26,7 @@ import com.zl52074.gulimall.common.utils.R;
  * @date 2023-10-05 07:25:36
  */
 @RestController
+@Controller
 @RequestMapping("product/attr")
 public class AttrController {
     @Autowired

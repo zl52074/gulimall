@@ -1,5 +1,6 @@
 package com.zl52074.gulimall.product.service.impl;
 
+import com.mysql.cj.QueryResult;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -68,4 +69,8 @@ public class ProductAttrValueServiceImpl extends ServiceImpl<ProductAttrValueDao
         this.saveBatch(collect);
     }
 
+    @Override
+    public List<ProductAttrValueEntity> baseAttrListforspu(Long spuId) {
+        return this.list(new QueryWrapper<ProductAttrValueEntity>().eq("spu_id",spuId));
+    }
 }

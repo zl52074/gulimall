@@ -1,5 +1,6 @@
 package com.zl52074.gulimall.product.service.impl;
 
+import com.zl52074.gulimall.product.controller.BrandController;
 import com.zl52074.gulimall.product.service.CategoryBrandRelationService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class BrandServiceImpl extends ServiceImpl<BrandDao, BrandEntity> implements BrandService {
     @Autowired
     private CategoryBrandRelationService categoryBrandRelationService;
+
+    @Autowired
+    BrandController controller;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {

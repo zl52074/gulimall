@@ -7,3 +7,13 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848
+
+
+# springdata-es连接地址
+  elasticsearch:
+    uris: localhost:9200    #如果是集群，用“，”分割
+  data:
+    elasticsearch:
+      repositories:
+        enabled: true  #开启ElasticsearchRepository模式
+
