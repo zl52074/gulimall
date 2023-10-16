@@ -1,6 +1,7 @@
 package com.zl52074.gulimall.product.service.impl;
 
 import com.zl52074.gulimall.product.service.CategoryBrandRelationService;
+import com.zl52074.gulimall.product.vo.Catalog2Vo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -98,5 +99,40 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         categoryBrandRelationService.updateCategory(category.getCatId(),category.getName());
     }
 
+    @Override
+    public List<CategoryEntity> getLevel1Categorys() {
+        return this.list(new QueryWrapper<CategoryEntity>().eq("cat_level",1));
+    }
 
+    @Override
+    public Map<String,List<Catalog2Vo>> getCatalogJson(){
+        //查询全部1级分类
+        List<CategoryEntity> level1Categories = this.list(new QueryWrapper<CategoryEntity>().eq("cat_level",1));
+        List<CategoryEntity> level2Categories = this.list(new QueryWrapper<CategoryEntity>().eq("cat_level",2));
+        List<CategoryEntity> level3Categories = this.list(new QueryWrapper<CategoryEntity>().eq("cat_level",3));
+
+        List<Catalog2Vo> catalog2VoList = level2Categories.stream().map(level2 -> {
+            Catalog2Vo catalog2Vo = new Catalog2Vo();
+            catalog2Vo.setId(level2.getCatId().toString());
+            catalog2Vo.setName(level2.getName());
+            catalog2Vo.setCatalog1Id(level2.getParentCid().toString());
+            List<Catalog2Vo.Catalog3Vo> level3VoList = level3Categories.stream().filter(level3 -> {
+                return level3.getParentCid().equals(level2.getCatId());
+            }).map(level3 -> {
+                Catalog2Vo.Catalog3Vo catalog3Vo = new Catalog2Vo.Catalog3Vo();
+                catalog3Vo.setCatalog2Id(level2.getCatId().toString());
+                catalog3Vo.setName(level3.getName());
+                catalog3Vo.setId(level3.getCatId().toString());
+                return catalog3Vo;
+            }).collect(Collectors.toList());
+            catalog2Vo.setCatalog3List(level3VoList);
+            return catalog2Vo;
+        }).collect(Collectors.toList());
+        int i = 0 ;
+        Map<String, List<Catalog2Vo>> map = level1Categories.stream().collect(Collectors.toMap(level1->level1.getCatId().toString(), level1 -> {
+            return catalog2VoList.stream().filter(catalog2Vo -> catalog2Vo.getCatalog1Id().equals(level1.getCatId().toString())).collect(Collectors.toList());
+        }));
+
+        return map;
+    }
 }
