@@ -11,12 +11,6 @@ spring:
         group: gulimall-third-party
         # 用于共享的配置文件
         shared-configs:
-          - data-id: common-datasource.yaml
-            group: common
-
-          - data-id: common-mybatis.yaml
-            group: common
-
           - data-id: common-spring-cloud.yaml
             group: common
 
