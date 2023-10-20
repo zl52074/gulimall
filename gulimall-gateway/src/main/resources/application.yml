@@ -49,6 +49,11 @@ spring:
           predicates:
             - Host=gulimall.com
 
+        - id: gulimall_search_route
+          uri: lb://gulimall-search
+          predicates:
+            - Host=search.gulimall.com
+
       #全局跨域配置
       globalcors:
         cors-configurations:

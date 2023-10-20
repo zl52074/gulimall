@@ -14,6 +14,11 @@ spring:
         server-addr: localhost:8848
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
+
+  redis:
+    host: localhost
+    port: 6379
+
   cache:
     type: redis
     redis:
@@ -25,9 +30,7 @@ spring:
   #关闭thymeleaf缓存
   thymeleaf:
     cache: false
-  redis:
-    host: localhost
-    port: 6379
+
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml

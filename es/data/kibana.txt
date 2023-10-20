@@ -1,0 +1,405 @@
+#测试分词器
+get /bank/_analyze
+{
+  "analyzer":"ik_smart",
+  "text":"尚硅谷中国人abc"
+}
+
+#创建索引
+put product
+{
+  "mappings": {
+    "properties": {
+      "skuId": {
+        "type": "long"
+      },
+      "spuId": {
+        "type": "keyword"
+      },
+      "skuTitle": {
+        "type": "text",
+        "analyzer": "ik_smart"
+      },
+      "skuPrice": {
+        "type": "keyword"
+      },
+      "skuImg": {
+        "type": "keyword",
+        "index": false,
+        "doc_values": false
+      },
+      "saleCount": {
+        "type": "long"
+      },
+      "hasStock": {
+        "type": "boolean"
+      },
+      "hotScore": {
+        "type": "long"
+      },
+      "brandId": {
+        "type": "long"
+      },
+      "catalogId": {
+        "type": "long"
+      },
+      "brandName": {
+        "type": "keyword",
+        "index": false,
+        "doc_values": false
+      },
+      "brandImg": {
+        "type": "keyword",
+        "index": false,
+        "doc_values": false
+      },
+      "catalogName": {
+        "type": "keyword",
+        "index": false,
+        "doc_values": false
+      },
+      "attrs": {
+        "type": "nested",
+        "properties": {
+          "attrId": {
+            "type": "long"
+          },
+          "attrName": {
+            "type": "keyword",
+            "index": false,
+            "doc_values": false
+          },
+          "attrValue": {
+            "type": "keyword"
+          }
+        }
+      }
+    }
+  }
+}
+
+#创建索引
+put gulimall_product
+{
+  "mappings": {
+    "properties": {
+      "skuId": {
+        "type": "long"
+      },
+      "spuId": {
+        "type": "keyword"
+      },
+      "skuTitle": {
+        "type": "text",
+        "analyzer": "ik_smart"
+      },
+      "skuPrice": {
+        "type": "keyword"
+      },
+      "skuImg": {
+        "type": "keyword"
+      },
+      "saleCount": {
+        "type": "long"
+      },
+      "hasStock": {
+        "type": "boolean"
+      },
+      "hotScore": {
+        "type": "long"
+      },
+      "brandId": {
+        "type": "long"
+      },
+      "catalogId": {
+        "type": "long"
+      },
+      "brandName": {
+        "type": "keyword"
+      },
+      "brandImg": {
+        "type": "keyword"
+      },
+      "catalogName": {
+        "type": "keyword"
+      },
+      "attrs": {
+        "type": "nested",
+        "properties": {
+          "attrId": {
+            "type": "long"
+          },
+          "attrName": {
+            "type": "keyword"
+          },
+          "attrValue": {
+            "type": "keyword"
+          }
+        }
+      }
+    }
+  }
+}
+
+#保存商品
+put product/_doc/1
+{
+	"attrs": [{
+		"attrId": 6,
+		"attrName": "机型",
+		"attrValue": "小米13"
+	}, {
+		"attrId": 7,
+		"attrName": "尺寸尺寸",
+		"attrValue": "13"
+	}],
+	"brandId": 19,
+	"brandImg": "https://gulimall-zl52074.oss-cn-beijing.aliyuncs.com/2023-10-12/48966128-0d9e-46d1-81fb-7dc7022a4c90_xiaomi.png",
+	"brandName": "小米",
+	"catalogId": 225,
+	"catalogName": "手机",
+	"hasStock": true,
+	"hotScore": 0,
+	"saleCount": 0,
+	"skuId": 1,
+	"skuImg": "https://gulimall-zl52074.oss-cn-beijing.aliyuncs.com/2023-10-12/5341178e-a19b-487b-8845-0c206eb99d0e_xiaomi.png",
+	"skuPrice": 2999.0000,
+	"skuTitle": "小米13 黑色",
+	"spuId": 5
+}
+#根据id删除商品
+DELETE /product/_doc/1
+#获取映射关系（索引结构）
+GET /bank/_mapping
+GET /users/_mapping
+
+#迁移数据
+POST _reindex
+{
+  "source": {
+    "index": "product"
+  },
+  "dest":{
+    "index": "gulimall_product"
+  }
+}
+
+GET gulimall_product/_search
+
+
+#查询商品
+GET gulimall_product/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "skuTitle": "小米"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "term": {
+            "catalogId": "225"
+          }
+        },
+        {
+          "terms": {
+            "brandId": [
+              "19",
+              "20"
+            ]
+          }
+        },
+        {
+          "term": {
+            "hasStock": "true"
+          }
+        },
+        {
+          "range": {
+            "skuPrice": {
+              "gte": 0,
+              "lte": 3000
+            }
+          }
+        },
+        {
+          "nested": {
+            "path": "attrs",
+            "query": {
+              "bool": {
+                "must": [
+                  {
+                    "term": {
+                      "attrs.attrId": "6"
+                    }
+                  },
+                  {
+                    "terms": {
+                      "attrs.attrValue": [
+                        "小米13"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "sort": [
+    {
+      "skuPrice": {
+        "order": "desc"
+      }
+    }
+  ],
+  "from": 0,
+  "size": 1,
+  "highlight": {
+    "fields": {
+      "skuTitle": {}
+    },
+    "pre_tags": "<b style='color:red'>",
+    "post_tags": "</b>"
+  },
+  "aggs": {
+    "brand_agg": {
+      "terms": {
+        "field": "brandId",
+        "size": 10
+      },
+      "aggs": {
+        "brand_name_agg": {
+          "terms": {
+            "field": "brandName",
+            "size": 10
+          }
+        },
+        "brand_img_agg": {
+          "terms": {
+            "field": "brandImg",
+            "size": 10
+          }
+        }
+      }
+    },
+    "catalog_agg": {
+      "terms": {
+        "field": "catalogId",
+        "size": 10
+      },
+      "aggs": {
+        "catalog_name_agg": {
+          "terms": {
+            "field": "catalogName",
+            "size": 10
+          }
+        }
+      }
+    },
+    "attr_agg": {
+      "nested": {
+        "path": "attrs"
+      },
+      "aggs": {
+        "attr_id_agg": {
+          "terms": {
+            "field": "attrs.attrId",
+            "size": 10
+          },
+          "aggs": {
+            "attr_name_agg": {
+              "terms": {
+                "field": "attrs.attrName",
+                "size": 10
+              }
+            },
+            "attr_value_agg": {
+              "terms": {
+                "field": "attrs.attrValue",
+                "size": 10
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+#测试聚合
+GET gulimall_product/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "aggs": {
+    "brand_agg": {
+      "terms": {
+        "field": "brandId",
+        "size": 10
+      },
+      "aggs": {
+        "brand_name_agg": {
+          "terms": {
+            "field": "brandName",
+            "size": 10
+          }
+        },
+        "brand_img_agg": {
+          "terms": {
+            "field": "brandImg",
+            "size": 10
+          }
+        }
+      }
+    },
+    "catalog_agg": {
+      "terms": {
+        "field": "catalogId",
+        "size": 10
+      },
+      "aggs": {
+        "catalog_name_agg": {
+          "terms": {
+            "field": "catalogName",
+            "size": 10
+          }
+        }
+      }
+    },
+    "attr_agg": {
+      "nested": {
+        "path": "attrs"
+      },
+      "aggs": {
+        "attr_id_agg": {
+          "terms": {
+            "field": "attrs.attrId",
+            "size": 10
+          },
+          "aggs": {
+            "attr_name_agg": {
+              "terms": {
+                "field": "attrs.attrName",
+                "size": 10
+              }
+            },
+            "attr_value_agg": {
+              "terms": {
+                "field": "attrs.attrValue",
+                "size": 10
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

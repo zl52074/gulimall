@@ -2,11 +2,14 @@ package com.zl52074.gulimall.product.controller;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.zl52074.gulimall.common.valid.AddGroup;
 import com.zl52074.gulimall.common.valid.UpdateGroup;
 import com.zl52074.gulimall.common.valid.UpdateStatusGroup;
+import com.zl52074.gulimall.product.vo.BrandVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -56,6 +59,18 @@ public class BrandController {
 		BrandEntity brand = brandService.getById(brandId);
 
         return R.ok().put("brand", brand);
+    }
+
+    @RequestMapping("/infos")
+    public R infos(@RequestParam List<Long> ids){
+        List<BrandEntity> brandList = brandService.listByIds(ids);
+        List<BrandVo> collect = brandList.stream().map(brandEntity -> {
+            BrandVo brandVo = new BrandVo();
+            brandVo.setBrandId(brandEntity.getBrandId());
+            brandVo.setBrandName(brandEntity.getName());
+            return brandVo;
+        }).collect(Collectors.toList());
+        return R.ok().put("brand", collect);
     }
 
     /**

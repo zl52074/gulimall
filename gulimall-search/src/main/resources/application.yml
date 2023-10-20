@@ -8,6 +8,9 @@ spring:
       discovery:
         server-addr: localhost:8848
 
+  #关闭thymeleaf缓存
+  thymeleaf:
+    cache: false
 
 # springdata-es连接地址
   elasticsearch:
@@ -17,3 +20,6 @@ spring:
       repositories:
         enabled: true  #开启ElasticsearchRepository模式
 
+logging:
+  level:
+    com.zl52074.gulimall: debug

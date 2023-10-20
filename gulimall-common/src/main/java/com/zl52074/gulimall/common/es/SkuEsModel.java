@@ -13,6 +13,8 @@ public class SkuEsModel {
 
     private Long spuId;
 
+    private String skuName;
+
     private String skuTitle;
 
     private BigDecimal skuPrice;
