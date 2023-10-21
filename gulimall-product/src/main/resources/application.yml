@@ -43,3 +43,10 @@ mybatis-plus:
 logging:
   level:
     com.zl52074.gulimall: debug
+
+
+gulimall:
+  thread:
+    coreSize: 20
+    maxSize: 20
+    keepAliveTime: 10

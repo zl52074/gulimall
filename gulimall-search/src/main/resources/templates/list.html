@@ -399,7 +399,7 @@
 <!--搜索导航-->
 <div class="header_sous">
     <div class="logo">
-        <a href="http://gulimall.com"><img src="/static/search/image/logo1.png" alt=""></a>
+        <a href="http://gulimall.com"><img src="/static/search/image/logo1.jpg" alt=""></a>
     </div>
     <div class="header_form">
         <input id="keyword_input" type="text" placeholder="手机" th:value="${param.keyword}"/>
@@ -1180,19 +1180,19 @@
                                 <a href="#">关注</a>
                             </div>
                             <p class="da">
-                                <a >
+                                <a th:href="|http://item.gulimall.com/${product.skuId}.html|">
                                     <img   class="dim" th:src="${product.skuImg}">
                                 </a>
                             </p>
                             <ul class="tab_im">
-                                <li><a href="#" th:title="${product.skuName}">
+                                <li><a  th:title="${product.skuName}">
                                     <img th:src="${product.skuImg}"></a></li>
                             </ul>
                             <p class="tab_R">
                                 <span th:text="'￥' + ${product.skuPrice}">¥5199.00</span>
                             </p>
                             <p class="tab_JE">
-                                <a href="#" th:utext="${product.skuTitle}">
+                                <a th:href="|http://item.gulimall.com/${product.skuId}.html|" th:utext="${product.skuTitle}">
                                     Apple iPhone 7 Plus (A1661) 32G 黑色 移动联通电信4G手机
                                 </a>
                             </p>
