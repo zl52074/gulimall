@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: gulimall-auth-server
+  cloud:
+    nacos:
+      config:
+        server-addr: localhost:8848
+        namespace: public
+        file-extension: yaml
+        prefix: ${spring.application.name}
+        group: gulimall-auth-server
+        # 用于共享的配置文件
+        shared-configs:
+
+          - data-id: common-spring-cloud.yaml
+            group: common
+

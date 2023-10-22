@@ -1,0 +1,16 @@
+server:
+  port: 8900
+spring:
+  application:
+    name: gulimall-auth-server
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+  redis:
+    host: localhost
+    port: 6379
+
+  #关闭thymeleaf缓存
+  thymeleaf:
+    cache: false

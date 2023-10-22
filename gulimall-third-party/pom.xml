@@ -78,6 +78,13 @@
             <version>2.1.2</version>
         </dependency>
 
+        <!--idea spring Configuration 提示-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
     </dependencies>
 
 </project>

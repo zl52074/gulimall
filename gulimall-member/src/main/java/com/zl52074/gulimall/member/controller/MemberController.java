@@ -3,7 +3,12 @@ package com.zl52074.gulimall.member.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.zl52074.gulimall.common.exception.BizCodeEnum;
+import com.zl52074.gulimall.member.exception.PhoneExistException;
+import com.zl52074.gulimall.member.exception.UsernameExistException;
 import com.zl52074.gulimall.member.feign.CouponService;
+import com.zl52074.gulimall.member.vo.MemberUserLoginVo;
+import com.zl52074.gulimall.member.vo.MemberUserRegisterVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +34,33 @@ public class MemberController {
 
     @Autowired
     CouponService couponService;
+
+    @PostMapping(value = "/register")
+    public R register(@RequestBody MemberUserRegisterVo vo) {
+
+        try {
+            memberService.register(vo);
+        } catch (PhoneExistException e) {
+            return R.error(BizCodeEnum.PHONE_EXIST_EXCEPTION.getCode(),BizCodeEnum.PHONE_EXIST_EXCEPTION.getMsg());
+        } catch (UsernameExistException e) {
+            return R.error(BizCodeEnum.USER_EXIST_EXCEPTION.getCode(),BizCodeEnum.USER_EXIST_EXCEPTION.getMsg());
+        }
+
+        return R.ok();
+    }
+
+
+    @PostMapping(value = "/login")
+    public R login(@RequestBody MemberUserLoginVo vo) {
+
+        MemberEntity memberEntity = memberService.login(vo);
+
+        if (memberEntity != null) {
+            return R.ok().setData(memberEntity);
+        } else {
+            return R.error(BizCodeEnum.LOGINACCT_PASSWORD_EXCEPTION.getCode(),BizCodeEnum.LOGINACCT_PASSWORD_EXCEPTION.getMsg());
+        }
+    }
 
     @GetMapping("/coupon/list")
     public R memberCouponList(){

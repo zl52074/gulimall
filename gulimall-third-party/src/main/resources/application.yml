@@ -13,6 +13,12 @@ spring:
       oss:
         endpoint: oss-cn-beijing.aliyuncs.com
         bucket: ENC(fDjfAAsNxja5d5BCWoUEikut80blnEjTESlhNZ4jMU4TLNZmSCwv08//pb/SjMJMpEfKj2dxbI3F6uKV39yhIgT1wtrn3nytA/dhnO/zvsuW0GsY/VU20YKB6Z1iC9whd+P1mMMvspYqS6SmIiUS6ffcJQiIrKg4WvUBugoa08Q=)
+      sms:
+        host: https://dfsns.market.alicloudapi.com
+        path: /data/send_sms
+        templateId: CST_ptdie100
+        appcode: ENC(eG/1ZBL5x+ALIBr1SR0Aryv1zZ031irEPqZijJOCiCUmw3xnXlKuwLM9Ae+neunLht0zxlWA/82mtnhe0PpUnQoolHXOR2lPGtdDUwXFAo9PJP9NVv7CTnPLOlGGywfRmOechLWwx8zhwfI7kk3BRfsYlfkx2hX+EW9E3KjTKzI=)
+
     util:
       enabled: false
 
