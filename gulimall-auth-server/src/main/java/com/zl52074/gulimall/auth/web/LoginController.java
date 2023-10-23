@@ -6,6 +6,7 @@ import com.zl52074.gulimall.auth.vo.UserLoginVo;
 import com.zl52074.gulimall.common.constatnt.AuthServerConstant;
 import com.zl52074.gulimall.auth.vo.UserRegisterVo;
 import com.zl52074.gulimall.common.utils.R;
+import com.zl52074.gulimall.common.vo.MemberResponseVo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.validation.FieldError;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.HashMap;
@@ -28,7 +30,7 @@ import java.util.stream.Collectors;
  * @time: 2023/10/22 14:32
  */
 @Controller
-public class LoginPageController {
+public class LoginController {
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
@@ -44,6 +46,20 @@ public class LoginPageController {
     public String regPage(){
         return "reg";
     }*/
+
+    @GetMapping(value = "/login.html")
+    public String loginPage(HttpSession session) {
+
+        //从session先取出来用户的信息，判断用户是否已经登录过了
+        Object attribute = session.getAttribute(AuthServerConstant.LOGIN_USER);
+        //如果用户没登录那就跳转到登录页面
+        if (attribute == null) {
+            return "login";
+        } else {
+            return "redirect:http://gulimall.com";
+        }
+
+    }
     /**
      *
      * 重定向携带数据：利用session原理，将数据放在session中。
@@ -115,6 +131,8 @@ public class LoginPageController {
         R login = memberFeignService.login(vo);
 
         if (login.getCode() == 0) {
+            MemberResponseVo data = login.getData("data", new TypeReference<MemberResponseVo>() {});
+            session.setAttribute(AuthServerConstant.LOGIN_USER,data);
             return "redirect:http://gulimall.com";
         } else {
             Map<String,String> errors = new HashMap<>();
@@ -122,5 +140,13 @@ public class LoginPageController {
             attributes.addFlashAttribute("errors",errors);
             return "redirect:http://auth.gulimall.com/login.html";
         }
+    }
+
+
+    @GetMapping(value = "/loguot.html")
+    public String logout(HttpServletRequest request) {
+        request.getSession().removeAttribute(AuthServerConstant.LOGIN_USER);
+        request.getSession().invalidate();
+        return "redirect:http://gulimall.com";
     }
 }

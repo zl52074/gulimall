@@ -188,3 +188,8 @@ create table ums_member_statistics_info
 );
 
 alter table ums_member_statistics_info comment '会员统计信息';
+
+alter table  `ums_member` add social_uid  varchar(255);
+alter table  `ums_member` add access_token  varchar(255);
+alter table  `ums_member` add expires_in  varchar(255);
+

@@ -70,6 +70,11 @@
             <version>3.17.1</version>
         </dependency>
 
+        <!--  整合springsession  -->
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

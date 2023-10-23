@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
  * @time: 2023/10/22 23:53
  */
 @RestController
-public class LoginController {
+public class LoginApiController {
     @Autowired
     private ThirdPartyFeignService thirdPartyFeignService;
 

@@ -9,9 +9,9 @@ import lombok.Data;
 
 /**
  * 会员
- * 
+ *
  * @author zl52074
- * @email 
+ * @email
  * @date 2023-10-05 09:04:48
  */
 @Data
@@ -93,4 +93,18 @@ public class MemberEntity implements Serializable {
 	 */
 	private Date createTime;
 
+	/**
+	 * 社交登录UID
+	 */
+	private String socialUid;
+
+	/**
+	 * 社交登录TOKEN
+	 */
+	private String accessToken;
+
+	/**
+	 * 社交登录过期时间
+	 */
+	private long expiresIn;
 }
