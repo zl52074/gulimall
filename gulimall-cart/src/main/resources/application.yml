@@ -1,0 +1,23 @@
+server:
+  port: 8910
+spring:
+  application:
+    name: gulimall-cart
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+
+  #关闭thymeleaf缓存
+  thymeleaf:
+    cache: false
+
+logging:
+  level:
+    com.zl52074.gulimall: debug
+
+gulimall:
+  thread:
+    coreSize: 20
+    maxSize: 20
+    keepAliveTime: 10
