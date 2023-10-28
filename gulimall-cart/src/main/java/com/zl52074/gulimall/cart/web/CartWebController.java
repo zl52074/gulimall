@@ -1,8 +1,6 @@
 package com.zl52074.gulimall.cart.web;
 
-import com.zl52074.gulimall.cart.interceptor.CartInterceptor;
 import com.zl52074.gulimall.cart.service.CartService;
-import com.zl52074.gulimall.cart.to.UserInfoTo;
 import com.zl52074.gulimall.cart.vo.CartItemVo;
 import com.zl52074.gulimall.cart.vo.CartVo;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -23,7 +20,7 @@ import java.util.concurrent.ExecutionException;
  */
 @Controller
 @Slf4j
-public class CartController {
+public class CartWebController {
 
     @Autowired
     private CartService cartService;

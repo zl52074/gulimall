@@ -131,11 +131,13 @@
 						</li>
 					</ul>
 					<ul class="header_ul_right">
-						<li style="border: 0;">
-							<a href="denglu.html" class="aa">你好，请登录</a>
-						</li>
 						<li>
-							<a href="javascript:;" style="color: red;">免费注册</a> |</li>
+							<a th:if="${session.loginUser != null}">欢迎, [[${session.loginUser.nickname}]]</a>
+							<a th:if="${session.loginUser == null}" href="http://auth.gulimall.com/login.html">你好，请登录</a>
+						</li>
+						<li th:if="${session.loginUser == null}">
+							<a  href="http://auth.gulimall.com/reg.html" class="li_2">免费注册</a>
+						</li>
 						<li>
 							<a href="javascript:;" class="aa">我的订单</a> |</li>
 						<li class="jingdong" style="width:95px;">
@@ -399,7 +401,7 @@
 				<div class="nav_min">
 					<div class="nav_top">
 						<div class="nav_top_one">
-							<a href="javascript:;"><img src="/static/detail/img/logo1.jpg" /></a>
+							<a href="http://gulimall.com"><img src="/static/detail/img/logo1.jpg" /></a>
 						</div>
 						<div class="nav_top_two"><input type="text" /><button>搜索</button></div>
 						<div class="nav_top_three">

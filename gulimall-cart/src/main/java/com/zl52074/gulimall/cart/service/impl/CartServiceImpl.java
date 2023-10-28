@@ -2,6 +2,7 @@ package com.zl52074.gulimall.cart.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.zl52074.gulimall.cart.exception.CartExceptionHandler;
 import com.zl52074.gulimall.cart.feign.ProductFeignService;
 import com.zl52074.gulimall.cart.interceptor.CartInterceptor;
 import com.zl52074.gulimall.cart.service.CartService;
@@ -18,6 +19,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -244,4 +246,39 @@ public class CartServiceImpl implements CartService {
     }
 
 
+    /**
+     * 获取用户购物车项
+     * @return
+     */
+    @Override
+    public List<CartItemVo> getUserCartItems() {
+
+        List<CartItemVo> cartItemVoList = new ArrayList<>();
+        //获取当前用户登录的信息
+        UserInfoTo userInfoTo = CartInterceptor.threadLocal.get();
+        //如果用户未登录直接返回null
+        if (userInfoTo.getUserId() == null) {
+            return null;
+        } else {
+            //获取购物车项
+            String cartKey = CartConstant.CART_PREFIX + userInfoTo.getUserId();
+            //获取所有的
+            List<CartItemVo> cartItems = getCartItems(cartKey);
+            if (cartItems == null) {
+                throw new CartExceptionHandler();
+            }
+            //筛选出选中的
+            cartItemVoList = cartItems.stream()
+                    .filter(items -> items.getCheck())
+                    .map(item -> {
+                        //更新为最新的价格（查询数据库）
+                        BigDecimal price = productFeignService.getPrice(item.getSkuId());
+                        item.setPrice(price);
+                        return item;
+                    })
+                    .collect(Collectors.toList());
+        }
+
+        return cartItemVoList;
+    }
 }

@@ -1,14 +1,12 @@
 package com.zl52074.gulimall.member.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.zl52074.gulimall.member.entity.MemberReceiveAddressEntity;
 import com.zl52074.gulimall.member.service.MemberReceiveAddressService;
@@ -21,7 +19,7 @@ import com.zl52074.gulimall.common.utils.R;
  * 会员收货地址
  *
  * @author zl52074
- * @email 
+ * @email
  * @date 2023-10-05 09:04:48
  */
 @RestController
@@ -29,6 +27,11 @@ import com.zl52074.gulimall.common.utils.R;
 public class MemberReceiveAddressController {
     @Autowired
     private MemberReceiveAddressService memberReceiveAddressService;
+
+    @GetMapping(value = "/{memberId}/address")
+    List<MemberReceiveAddressEntity> getAddress(@PathVariable("memberId") Long memberId){
+        return memberReceiveAddressService.list(new QueryWrapper<MemberReceiveAddressEntity>().eq("member_id",memberId));
+    }
 
     /**
      * 列表

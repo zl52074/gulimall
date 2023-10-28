@@ -82,6 +82,7 @@ spring:
             allowed-origins:
               - "http://localhost:8001"
               - "http://127.0.0.1:8001"
+              - "http://order.gulimall.com"
             allowed-headers: "*"
             allowed-methods:
               - OPTIONS
