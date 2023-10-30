@@ -48,3 +48,19 @@ gulimall:
     coreSize: 20
     maxSize: 20
     keepAliveTime: 10
+
+
+seata:
+  enabled: true
+  application-id: gulimall-order
+  tx-service-group: my_test_tx_group
+  enable-auto-data-source-proxy: false
+  service:
+    vgroup-mapping:
+      my_test_tx_group: default
+  registry:
+    type: nacos
+    nacos:
+      server-addr: localhost:8848
+      application: seata-server
+      group: SEATA_GROUP

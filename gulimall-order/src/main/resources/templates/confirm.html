@@ -592,6 +592,7 @@
 		<!--</div>-->
 		<!--主体部分-->
 		<p class="p1">填写并核对订单信息</p>
+		<p class="p1"> <span style="color: red" th:if="${msg!=null}" th:text="${msg}"></span> </p>
 		<div class="section">
 			<!--收货人信息-->
 			<div class="top-2">
@@ -674,7 +675,7 @@
 							<span> [[${item.count}]] </span> <span> [[${confirmOrderData.stocks[item.skuId]?"有货":"无货"}]]</span>
 						</p>
 						<p><span>[[${item.weight}]]kg</span></p>
-						<p class="tui-1"><img src="/static/order/confirm/img/i_07.png"/>支持7天无理由退货</p>
+						<p class="tui-1"><img src="/static/confirm/img/i_07.png"/>支持7天无理由退货</p>
 					</div>
 				</div>
 
@@ -739,7 +740,12 @@
 				</p>
 				<p class="yfze_b">寄送至： <span id="receiveAddress"></span> 收货人：<span id="receiver"></span></p>
 			</div>
-			<button class="tijiao">提交订单</button>
+			<form action="http://order.gulimall.com/submitOrder" method="post">
+				<input id="addrInput" type="hidden" name="addrId" />
+				<input id="payPriceInput" type="hidden" name="payPrice">
+				<input name="orderToken" th:value="${confirmOrderData.orderToken}" type="hidden"/>
+				<button class="tijiao" type="submit">提交订单</button>
+			</form>
 		</div>
 		</div>
 

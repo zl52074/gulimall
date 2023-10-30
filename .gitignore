@@ -5,6 +5,8 @@
 
 #Nacos
 nacos-server-2.2.0/
+#seata
+seata-server-1.6.1/
 
 #vue
 **/node_modules
