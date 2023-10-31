@@ -10,11 +10,13 @@ import java.util.Map;
  * 库存工作单
  *
  * @author zl52074
- * @email 
+ * @email
  * @date 2023-10-05 08:58:29
  */
 public interface WareOrderTaskService extends IService<WareOrderTaskEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    WareOrderTaskEntity getOrderTaskByOrderSn(String orderSn);
 }
 

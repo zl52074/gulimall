@@ -113,3 +113,7 @@ create table wms_ware_sku
 );
 
 alter table wms_ware_sku comment '商品库存';
+
+alter table  `wms_ware_order_task_detail` add ware_id  bigint(20);
+
+alter table  `wms_ware_order_task_detail` add lock_status  tinyint(1);
