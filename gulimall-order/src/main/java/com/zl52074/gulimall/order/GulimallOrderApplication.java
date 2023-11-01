@@ -13,7 +13,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 @MapperScan("com.zl52074.gulimall.order.dao")
 @EnableFeignClients
 @EnableDiscoveryClient
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.zl52074.gulimall")
 public class GulimallOrderApplication {
 
     public static void main(String[] args) {

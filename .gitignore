@@ -12,5 +12,8 @@ seata-server-1.6.1/
 **/node_modules
 **/dist
 
+#javaweb
+classes
+
 
 

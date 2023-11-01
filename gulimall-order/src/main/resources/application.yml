@@ -12,7 +12,8 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848
-
+  mvc:
+    date-format: yyyy-MM-dd HH:mm:ss
   #关闭thymeleaf缓存
   thymeleaf:
     cache: false
@@ -64,3 +65,18 @@ seata:
       server-addr: localhost:8848
       application: seata-server
       group: SEATA_GROUP
+
+
+#支付宝支付相关的配置
+alipay:
+  app_id: 9021000131625510
+  merchant_private_key: MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCq2hnKb9Obqk7MnzAyZ4cgnn/my54RPMP5dmD/I3vRW7G1zW3T7UKCId1OncDSoBMSfo3guNhFuacSR7XOwt7i8trm2rknWVtHZHAY4AcGxhwJQPjZf+kUPYS4R+qoIXEnIJyI0FYUF55ZMhi0h6Vr0LdsrEpLEjKRaA9qQ/kWGbUZGLduHhKqPXNmASw306SK0O0iONLTtYs0J6jYFE0/eRO4Oqqs/Ifxyb6n5p8u1xYKcFUr+ZNwGGS7FkmjlNmBXP/nVc/9xjAEokqdVM5QTibMv7W6wMsbf27Nm/6607NlyYUu0pd/6kYsZ2aZsaHOf0IuOnpwzhIS2OE68t3hAgMBAAECggEAPzKh66Hl0mTy9PnFaD+nWkeG5CZZd+LUUwiY5IeJm22hlLBCeev/eAdyx0vPMZoItASgEooNZe1AgaCI/cxTiftvQYmSh52kCAp89JaZwsWxRTMFWd7YpqYC2++uOzbzlheYD3uQ+6mo5zGCtfSfGfyAfPBWIuK+Vc76NMKj9qo87lEr656S0kH1jzhYSlN28SEuX5vkOic2o8eLYJ+Kj4e4OakdGlbaNZ57lcpb+G/q7a2C1ZfxGkv9z9wE+SSOkgtBEmbyWfUQ0sOJ+w8lovwI1mTo0990r+tG70ppgRuEdgFbS7YEyAPBjr3HOS5UfHPobaaodTMOyQYQMoOs6QKBgQDWyXXT24Z1lAjxl/nA4QFT7DSKUd1POCeE1RVtjqhfksSmnjD2u1xdh/3LmNsxY8oBXZ0r659ieK2bqL1eeSx/bQfjKLqLDYgt3v93Bka/atb66csADPWLX0h/lCHWl4qmUDSpq8aQjCUwkWLv0UUllH2CuI3j6I7RC5Tc20R+awKBgQDLooLz07N84/j95UiUr40Bbts+1mqNs+QwCAhAJIklgW0a8zRbpTZuancYoQd7XXrUMunWySlwJ/YYIHUga0CLAkwqpTg6WPv6VZNQ+bI9l5O6YZM/VUvt8U/DVJTdm+9rus7cg7AVwdtUI0A2wcaLyLaHaS45RCOWJIIpVAuP4wKBgFic2Q3Evd54apAx4QpgSgnzo2GFkMaEJlm5B5QhjPmRNayACzdf6SV1W5HJyHTB9K9HjfZ2yVT48LcNkMMPPvp7Ywum2/9OX+Z83+ydHEcQrwzps6SbtBoB/4kS9jrwXnVrFa8CfXNZPmahNK44KkzszDNILNHgOjuoiYvssn9tAoGBAIRmVoSYSeRTCYpzMJzUA3dCD7Usjj0yEJSWNF8YIj/Lhhf2tz07D0f9WxAdaxLv9bPQoq+vPY0Zvm1zdRQuB9oaFVHI+OUfBD6As3b70sMvMbMGTEnqeKLtujHDZcMs5x+BZ4yC5tNOpv9uqAqyNRif2OX0IkTDo+u0MxkR9y6HAoGAMc47QnJ8GqU4BET7MqKJobLZYXPKx2TsuIJuZjh8lt13wwuRf+mFcPP7gKq8uA+1TmKd+aXtbcQLdZhp4SgkKvOfgoA643Z3TJPP2zrh++Mr0EpFXYV07Y44fFB04dcOEdYZ4Wg9ZfXaiXFlI84i2QhzU+9pwqdRdoP9/SJWot4=
+  alipay_public_key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlzyWpQyVa2vF+k20ngW9arm4bI30tK8G3GfECjcVvbjUkmyWBN0BhNrwpAm28+6RSdQ/CJK4W+io7J2lcw2cUmCixkHm6Af7lFWVkppoLAeEqBfFHt6cEKrZkbpXt9usMJjzgTDvPc5C6aQxA6TdSdn1ioM02/ePolOB54QbX5wVLKLP+Kuk8nnYFK+ZQKkvZytruqt985Nw18+lyzROGCZdAUYPpMKtfQFsLxYwwjsGMqeRprvjRKrIroUYZNrCquhiqaoey9qPJaEOuWqhjZDkBu3k1aUU8/bi3+xZSn8LDzSFinCI7s1SQZKh7S0AyfYYQMifvtiDRcjzq57OrQIDAQAB
+  notify_url: https://322u7y3559.zicp.fun/payed/notify
+  return_url: http://member.gulimall.com/memberOrder.html
+  sign_type: RSA2
+  charset: utf-8
+  gatewayUrl: https://openapi-sandbox.dl.alipaydev.com/gateway.do
+
+
+

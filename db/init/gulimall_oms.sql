@@ -221,3 +221,4 @@ create table oms_refund_info
 alter table oms_refund_info comment '退款信息';
 alter table oms_order modify column order_sn char(64);
 alter table oms_order_item modify column order_sn char(64);
+alter table oms_payment_info modify column order_sn char(64);

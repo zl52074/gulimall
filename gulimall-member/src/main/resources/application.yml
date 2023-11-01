@@ -12,6 +12,12 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848
+  redis:
+    host: localhost
+    port: 6379
+  #关闭thymeleaf缓存
+  thymeleaf:
+    cache: false
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
