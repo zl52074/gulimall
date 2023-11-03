@@ -1,9 +1,13 @@
 package com.zl52074.gulimall.product.service.impl;
 
+import com.alibaba.fastjson.TypeReference;
+import com.zl52074.gulimall.common.utils.R;
 import com.zl52074.gulimall.product.entity.SkuImagesEntity;
 import com.zl52074.gulimall.product.entity.SpuInfoDescEntity;
 import com.zl52074.gulimall.product.entity.SpuInfoEntity;
+import com.zl52074.gulimall.product.feign.SeckillFeignService;
 import com.zl52074.gulimall.product.service.*;
+import com.zl52074.gulimall.product.vo.SeckillSkuVo;
 import com.zl52074.gulimall.product.vo.SkuItemSaleAttrVo;
 import com.zl52074.gulimall.product.vo.SkuItemVo;
 import com.zl52074.gulimall.product.vo.SpuItemAttrGroupVo;
@@ -40,6 +44,8 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
     private AttrGroupService attrGroupService;
     @Autowired
     private SkuImagesService skuImagesService;
+    @Autowired
+    private SeckillFeignService seckillFeignService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -140,6 +146,23 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
             skuItemVo.setImages(imagesEntities);
         }, executor);
 
+        CompletableFuture<Void> seckillFuture = CompletableFuture.runAsync(() -> {
+            //3、远程调用查询当前sku是否参与秒杀优惠活动
+            R skuSeckilInfo = seckillFeignService.getSkuSeckilInfo(skuId);
+            if (skuSeckilInfo.getCode() == 0) {
+                //查询成功
+                SeckillSkuVo seckilInfoData = skuSeckilInfo.getData("data", new TypeReference<SeckillSkuVo>() {
+                });
+                skuItemVo.setSeckillSkuVo(seckilInfoData);
+
+                if (seckilInfoData != null) {
+                    long currentTime = System.currentTimeMillis();
+                    if (currentTime > seckilInfoData.getEndTime()) {
+                        skuItemVo.setSeckillSkuVo(null);
+                    }
+                }
+            }
+        }, executor);
 
 
         //等到所有任务都完成

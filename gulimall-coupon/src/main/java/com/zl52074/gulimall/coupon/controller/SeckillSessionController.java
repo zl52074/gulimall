@@ -1,14 +1,11 @@
 package com.zl52074.gulimall.coupon.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.zl52074.gulimall.coupon.entity.SeckillSessionEntity;
 import com.zl52074.gulimall.coupon.service.SeckillSessionService;
@@ -21,7 +18,7 @@ import com.zl52074.gulimall.common.utils.R;
  * 秒杀活动场次
  *
  * @author zl52074
- * @email 
+ * @email
  * @date 2023-10-05 18:16:20
  */
 @RestController
@@ -29,7 +26,17 @@ import com.zl52074.gulimall.common.utils.R;
 public class SeckillSessionController {
     @Autowired
     private SeckillSessionService seckillSessionService;
+    /**
+     * 查询最近三天需要参加秒杀商品的信息
+     * @return
+     */
+    @GetMapping(value = "/Lates3DaySession")
+    public R getLates3DaySession() {
 
+        List<SeckillSessionEntity> seckillSessionEntities = seckillSessionService.getLates3DaySession();
+
+        return R.ok().setData(seckillSessionEntities);
+    }
     /**
      * 列表
      */

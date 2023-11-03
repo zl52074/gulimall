@@ -9,6 +9,13 @@ spring:
         server-addr: localhost:8848
     gateway:
       routes:
+        - id: gulimall-coupon
+          uri: lb://gulimall-coupon
+          predicates:
+            - Path=/api/coupon/**
+          filters:
+            - RewritePath=/api/?(?<segment>.*), /$\{segment}
+
         - id: gulimall-ware
           uri: lb://gulimall-ware
           predicates:
@@ -74,6 +81,10 @@ spring:
           predicates:
             - Host=member.gulimall.com
 
+        - id: gulimall_seckill_route
+          uri: lb://gulimall-seckill
+          predicates:
+            - Host=seckill.gulimall.com
       #全局跨域配置
       globalcors:
         cors-configurations:
@@ -88,6 +99,7 @@ spring:
               - "http://localhost:8001"
               - "http://127.0.0.1:8001"
               - "http://order.gulimall.com"
+              - "http://gulimall.com"
             allowed-headers: "*"
             allowed-methods:
               - OPTIONS
