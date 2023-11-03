@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.zl52074.gulimall.common.constatnt.CartConstant;
 import com.zl52074.gulimall.common.exception.NoStockException;
 import com.zl52074.gulimall.common.to.OrderTo;
+import com.zl52074.gulimall.common.to.mq.SeckillOrderTo;
 import com.zl52074.gulimall.common.utils.R;
 import com.zl52074.gulimall.common.vo.MemberResponseVo;
 import com.zl52074.gulimall.order.OrderStatusEnum;
@@ -618,6 +619,55 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         this.baseMapper.updateOrderStatus(orderSn,code,payType);
     }
 
+    /**
+     * 创建秒杀单
+     * @param orderTo
+     */
+    @Override
+    public void createSeckillOrder(SeckillOrderTo orderTo) {
+
+        //保存订单信息
+        OrderEntity orderEntity = new OrderEntity();
+        orderEntity.setOrderSn(orderTo.getOrderSn());
+        orderEntity.setMemberId(orderTo.getMemberId());
+        orderEntity.setCreateTime(new Date());
+        BigDecimal totalPrice = orderTo.getSeckillPrice().multiply(BigDecimal.valueOf(orderTo.getNum()));
+        orderEntity.setPayAmount(totalPrice);
+        orderEntity.setStatus(OrderStatusEnum.CREATE_NEW.getCode());
+
+        //保存订单
+        this.save(orderEntity);
+
+        //保存订单项信息
+        OrderItemEntity orderItem = new OrderItemEntity();
+        orderItem.setOrderSn(orderTo.getOrderSn());
+        orderItem.setRealAmount(totalPrice);
+
+        orderItem.setSkuQuantity(orderTo.getNum());
+
+
+        //保存商品的spu信息
+        R spuInfo = productFeignService.getSpuInfoBySkuId(orderTo.getSkuId());
+        SpuInfoVo spuInfoData = spuInfo.getData("data", new TypeReference<SpuInfoVo>() {
+        });
+        orderItem.setSpuId(spuInfoData.getId());
+        orderItem.setSpuName(spuInfoData.getSpuName());
+        orderItem.setSpuBrand(spuInfoData.getBrandName());
+        orderItem.setCategoryId(spuInfoData.getCatalogId());
+
+        //保存商品sku信息
+        R skuInfo = productFeignService.getSkuInfoById(orderTo.getSkuId());
+        if(skuInfo.getCode()==0){
+            SkuInfoVo skuInfoVo = skuInfo.getData("skuInfo", new TypeReference<SkuInfoVo>() {});
+            orderItem.setSkuId(skuInfoVo.getSkuId());
+            orderItem.setSkuName(skuInfoVo.getSkuName());
+            orderItem.setSkuPic(skuInfoVo.getSkuDefaultImg());
+            orderItem.setSkuPrice(orderTo.getSeckillPrice());
+            orderItem.setSkuQuantity(orderTo.getNum());
+        }
+        //保存订单项数据
+        orderItemService.save(orderItem);
+    }
 
 
 }

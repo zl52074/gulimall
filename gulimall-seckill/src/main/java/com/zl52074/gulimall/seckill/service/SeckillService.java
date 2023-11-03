@@ -18,4 +18,6 @@ public interface SeckillService {
      * @return
      */
     SeckillSkuRedisTo getSkuSeckilInfo(Long skuId);
+
+    String kill(String killId, String key, Integer num) throws InterruptedException;
 }

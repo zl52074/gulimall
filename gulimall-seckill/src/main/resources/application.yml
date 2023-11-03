@@ -10,3 +10,23 @@ spring:
   redis:
     host: localhost
     port: 6379
+
+  #关闭thymeleaf缓存
+  thymeleaf:
+    cache: false
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    virtual-host: /
+    # 开启发送端消息抵达Broker确认
+    publisher-confirm-type: correlated
+    # 开启发送端消息抵达Queue确认
+    publisher-returns: true
+    template:
+      # 只要消息抵达Queue，就会异步发送优先回调returnfirm
+      mandatory: true
+    listener:
+      simple:
+        # 手动ack消息，不使用默认的消费端确认
+        acknowledge-mode: manual
