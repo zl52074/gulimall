@@ -1,8 +1,8 @@
 server:
-  port: 8200
+  port: 8500
 spring:
   application:
-    name: gulimall-member
+    name: gulimall-coupon
   zipkin:
     base-url: http://localhost:9411
     discovery-client-enabled: false
@@ -14,18 +14,12 @@ spring:
   datasource:
     username: root
     password: root
-    url: jdbc:mysql://localhost:3306/gulimall_ums
+    url: jdbc:mysql://localhost:3306/gulimall_sms
     driver-class-name: com.mysql.cj.jdbc.Driver
   cloud:
     nacos:
       discovery:
         server-addr: localhost:8848
-  redis:
-    host: localhost
-    port: 6379
-  #关闭thymeleaf缓存
-  thymeleaf:
-    cache: false
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
