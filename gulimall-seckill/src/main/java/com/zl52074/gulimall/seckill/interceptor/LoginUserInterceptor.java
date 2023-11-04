@@ -30,6 +30,18 @@ public class LoginUserInterceptor implements HandlerInterceptor {
         if (match||match1) {
             return true;
         }
+        if(antPathMatcher.match("/hello",uri)){
+            return true;
+        }
+        if(antPathMatcher.match("/hello/**",uri)){
+            return true;
+        }
+        if(antPathMatcher.match("/product",uri)){
+            return true;
+        }
+        if(antPathMatcher.match("/error",uri)){
+            return true;
+        }
 
         //获取登录的用户信息
         MemberResponseVo attribute = (MemberResponseVo) request.getSession().getAttribute(AuthServerConstant.LOGIN_USER);

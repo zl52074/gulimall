@@ -7,6 +7,8 @@
 nacos-server-2.2.0/
 #seata
 seata-server-1.6.1/
+#sentinel
+sentinel-dashboard-1.8.6/
 
 #vue
 **/node_modules

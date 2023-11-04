@@ -35,7 +35,8 @@ public class SeckillScheduled {
 
     //保证幂等性问题
 
-    @Scheduled(cron = "0 0/1 * * * ?  ")//每分钟执行1次
+    //@Scheduled(cron = "0 0/1 * * * ?  ")//每分钟执行1次
+    @Scheduled(cron = "0 0 0/1 * * ?  ")//每小时执行1次
     public void uploadSeckillSkuLatest3Days() {
         //1、重复上架无需处理
         log.info("上架秒杀的商品...");
